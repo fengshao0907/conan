@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DANConan" default="dist" basedir=".">
+
+	<!-- BUILD地址 -->
+	<import file="build_common.xml" />
+
+	<property name="build.env" value="" />
+
+	<!-- BUILD地址 -->
+	<property name="build.dir" value="build" />
+
+	<!-- dist -->
+	<property name="dist.dir" value="dist" />
+
+	<!-- CLIENT -->
+	<property name="dist.client.dir" value="${dist.dir}/client" />
+	<!-- SERVER -->
+	<property name="dist.server.dir" value="${dist.dir}/server" />
+
+	<!-- lib dir -->
+	<property name="dist.client.lib.dir" value="${dist.client.dir}/lib" />
+	<property name="dist.server.lib.dir" value="${dist.server.dir}/lib" />
+
+	<property name="dist.server.config.release.dir" value="src/server/main/resources/" />
+	<property name="dist.client.config.release.dir" value="src/client/main/resources/" />
+
+	<!-- ========================================= -->
+
+	<!-- 库文件路径 日志和邮件 -->
+	<fileset dir="lib" id="lib.files">
+		<include name="**/*.jar" />
+	</fileset>
+
+	<!-- 库文件路径 -->
+	<path id="classpath">
+		<fileset refid="lib.files" />
+	</path>
+
+	<!-- 结果 -->
+	<target name="dist">
+		<antcall target="compile_client" />
+		<antcall target="compile_server" />
+	</target>
+
+	<!-- 清理 -->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- 编译CLIENT -->
+	<target name="compile_client" depends="clean">
+		<mkdir dir="${build.dir}" />
+		<javac destdir="${build.dir}" debug="true" deprecation="true" encoding="utf-8" fork="yes" target="1.6" includeantruntime="false" memoryMaximumSize="300M">
+			<src path="src/common/main/java/:src/client/main/java" />
+			<classpath refid="classpath" />
+		</javac>
+		<delete dir="${dist.client.dir}" />
+		<mkdir dir="${dist.client.dir}" />
+		<copy_resource resources.dir="${dist.client.config.release.dir}" build.dir="${dist.client.dir}" />
+		<copy todir="${dist.client.lib.dir}">
+			<fileset refid="lib.files" />
+		</copy>
+		<jar destfile="${dist.client.dir}/danconan_client.jar" basedir="${build.dir}" />
+	</target>
+
+	<!-- 编译SERVER -->
+	<target name="compile_server" depends="clean">
+
+		<mkdir dir="${build.dir}" />
+		<javac destdir="${build.dir}" debug="true" deprecation="true" encoding="utf-8" fork="yes" target="1.6" includeantruntime="false" memoryMaximumSize="300M">
+			<src path="src/common/main/java/:src/server/main/java" />
+			<classpath refid="classpath" />
+		</javac>
+
+		<delete dir="${dist.server.dir}" />
+		<mkdir dir="${dist.server.dir}" />
+
+		<copy_resource resources.dir="${dist.server.config.release.dir}" build.dir="${dist.server.dir}" />
+
+		<copy todir="${dist.server.lib.dir}">
+			<fileset refid="lib.files" />
+		</copy>
+		<jar destfile="${dist.server.dir}/danconan_server.jar" basedir="${build.dir}" />
+	</target>
+
+</project>
+
+
+

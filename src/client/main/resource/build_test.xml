@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="rediscounter" basedir=".">
+
+	<property name="deploy_path" value="." />
+
+	<property name="jar.dir" value="${deploy_path}" />
+
+	<path id="classpath">
+		<fileset dir="${jar.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- 命令任务 -->
+
+	<target name="client_test">
+		<java classname="com.baidu.dan.danwebbillingclient.test.client.BillingClientTest" classpathref="classpath" maxmemory="512m" fork="true" failonerror="true">
+		</java>
+	</target>
+
+	<!-- " ant client_benchmark_test -Dip=127.0.0.1 -Dport=8677 -Dtestcasenum=1000000 "-->
+	<target name="client_benchmark_test">
+		<java classname="com.baidu.dan.danwebbillingclient.test.benchmark.BillingClientFastBenchmark" classpathref="classpath" maxmemory="512m" fork="true" failonerror="true">
+			<arg value="${ip}" />
+			<arg value="${port}" />
+			<arg value="${testcasenum}" />
+		</java>
+	</target>
+
+
+</project>

@@ -1,0 +1,30 @@
+<project name="build_common" basedir=".">
+
+	<!--定义宏：copy资源文件(非java文件）到目标目录，支持两个参数 -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="lib/ant/ant-contrib-1.0b2.jar" />
+		</classpath>
+	</taskdef>
+	<!-- 复制resource下的资源文件（非java文件）到classes目录 -->
+	<patternset id="compiler.resources">
+		<exclude name="**/?*.java" />
+	</patternset>
+	<macrodef name="copy_resource">
+		<attribute name="build.dir" />
+		<attribute name="resources.dir" />
+		<sequential>
+			<if>
+				<available file="@{resources.dir}" />
+				<then>
+					<copy todir="@{build.dir}">
+						<fileset dir="@{resources.dir}">
+							<patternset refid="compiler.resources" />
+						</fileset>
+					</copy>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+</project>
