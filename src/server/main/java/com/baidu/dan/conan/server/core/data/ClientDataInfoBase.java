@@ -51,6 +51,10 @@ public abstract class ClientDataInfoBase {
 		map.put(StatisticsDataConstants.REQUEST_NUMBER_TOTAL_FAILED, initValue);
 	}
 
+	public String getInfo() {
+		return "";
+	}
+
 	/**
 	 * 
 	 * @Description: 复制一份 并清除0
@@ -134,5 +138,11 @@ public abstract class ClientDataInfoBase {
 
 		monitorInfoMap.get(key).incrementAndGet();
 		monitorTimeMap.get(key).getAndAdd(consumeTime);
+	}
+
+	@Override
+	public String toString() {
+		return "ClientDataInfoBase [monitorTimeMap=" + monitorTimeMap
+				+ ", monitorInfoMap=" + monitorInfoMap + "]";
 	}
 }

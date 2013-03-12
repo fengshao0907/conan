@@ -7,10 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baidu.dan.conan.server.core.GlobalComputeObject;
-import com.baidu.dan.conan.server.writer.ConsoleWritter;
-import com.baidu.dan.conan.server.writer.ICommonWritter;
+import com.baidu.dan.conan.server.realtimewritter.RealTimeWriterHook;
 
-public class ComputeThread {
+public final class ComputeThread {
 
 	private ComputeThread() {
 
@@ -42,7 +41,12 @@ public class ComputeThread {
 			public void run() {
 
 				try {
+
+					// 进行实时计算
 					GlobalComputeObject.getInstance().merge();
+
+					// 实时输出
+					RealTimeWriterHook.getInstance().doWork();
 
 				} catch (Exception e) {
 					LOGGER.warn(e.toString());

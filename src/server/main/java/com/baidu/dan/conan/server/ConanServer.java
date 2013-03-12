@@ -37,6 +37,7 @@ public final class ConanServer {
 	 * @author liaoqiqi
 	 * @date 2013-3-4
 	 */
+	@SuppressWarnings("unused")
 	private static void loginMongo() {
 
 		//
@@ -65,9 +66,9 @@ public final class ConanServer {
 	public static void main(final String[] args) throws Exception {
 
 		//
-		// 输出结果init
+		// 实时计算线程开始计算
 		//
-		ConanOutput.run();
+		ComputeThread.run();
 
 		//
 		// 登录Mongodb

@@ -52,6 +52,7 @@ public class ServerHandler extends SimpleChannelUpstreamHandler {
 	public final void messageReceived(final ChannelHandlerContext ctx,
 			final MessageEvent e) {
 
+		@SuppressWarnings("unused")
 		ReplyMessage replyMessage = null;
 
 		// ECHO消息
