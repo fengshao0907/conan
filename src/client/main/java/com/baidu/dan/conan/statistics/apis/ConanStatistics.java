@@ -38,6 +38,7 @@ public final class ConanStatistics {
 		requestMessage.setFuncId(ConanFuncsEnum.CONAN_API_CONSUME_TIME);
 		requestMessage.setKey(serviceName);
 		requestMessage.setValue(computeTime);
+		requestMessage.setClientId(1L);
 		requestMessage.setTimeString(ConanUtils.getCurTimeStr());
 
 		ConanService.getInstance().sendCommand(requestMessage);

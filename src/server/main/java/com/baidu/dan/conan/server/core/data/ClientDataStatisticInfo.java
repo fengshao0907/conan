@@ -29,7 +29,7 @@ public class ClientDataStatisticInfo extends ClientDataInfoBase {
 
 		super();
 
-		init(monitorAvgMap, new Double(0.0));
+		init(monitorAvgMap, new Double(0.0), double.class);
 	}
 
 	/**
@@ -70,16 +70,6 @@ public class ClientDataStatisticInfo extends ClientDataInfoBase {
 
 	private void computeAvg() {
 
-		LOGGER.info(String.format(
-				"Count: %s , consumTime: %s ms",
-
-				this.monitorInfoMap.get(
-						StatisticsDataConstants.REQUEST_NUMBER_SUCCESS)
-						.toString(),
-				this.monitorTimeMap.get(
-						StatisticsDataConstants.REQUEST_NUMBER_SUCCESS)
-						.toString()));
-
 		try {
 
 			// 计算平均时长
@@ -89,14 +79,14 @@ public class ClientDataStatisticInfo extends ClientDataInfoBase {
 
 					long count = this.monitorInfoMap.get(key).longValue();
 					long time = this.monitorTimeMap.get(key).longValue();
-					double avg = count * 1.0 / time;
 
+					double avg = computeAvg(key, count, time);
 					monitorAvgMap.put(key, avg);
 
 					// 功能KEY，请求数，累积时间，平均时间
-					LOGGER.info(String.format(
-							"FuncKey: %s, Count: %s, Time:%s ms, Avg:%s", key,
-							count, time, avg));
+					//LOGGER.info(String.format(
+					//		"key: %s, Count: %s, Time:%s ms, Avg:%s", key,
+					//		count, time, avg));
 
 				} else {
 					monitorAvgMap.put(key, 0.0);
@@ -106,6 +96,35 @@ public class ClientDataStatisticInfo extends ClientDataInfoBase {
 
 			LOGGER.error("error", e);
 		}
+	}
+
+	/**
+	 * 
+	 * @Description: 不同KEY有不同的计算方法
+	 * 
+	 * @param key
+	 * @param count
+	 * @param timeConsume
+	 * @return
+	 * @return double
+	 * @author liaoqiqi
+	 * @date 2013-3-13
+	 */
+	private double computeAvg(String key, long count, double timeConsume) {
+
+		double avg = 0.0;
+
+		if (key.equals(StatisticsDataConstants.API_NUMBER)) {
+
+			// 每次请求的平均耗时
+			avg = timeConsume / count;
+		} else {
+
+			// 每1秒多少次请求
+			avg = count * 1000.0 / timeConsume;
+		}
+
+		return avg;
 	}
 
 	@Override

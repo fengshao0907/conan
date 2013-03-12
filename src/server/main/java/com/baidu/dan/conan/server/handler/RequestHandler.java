@@ -29,7 +29,7 @@ public final class RequestHandler {
 	 * @param billingData
 	 * @return
 	 */
-	public ReplyMessage process(final RequestMessage requestMessage) {
+	public static ReplyMessage process(final RequestMessage requestMessage) {
 
 		// logger.info("server hanlder. It's key and type info:"
 		// + requestMessage.getContent());
@@ -50,7 +50,7 @@ public final class RequestHandler {
 		//
 		case CONAN_API_CONSUME_TIME:
 
-			GlobalStatisticsData.getInstance().addRequestNumberSuccess(
+			GlobalStatisticsData.getInstance().addApiNumber(
 					requestMessage.getClientId(), requestMessage.getValue());
 			break;
 

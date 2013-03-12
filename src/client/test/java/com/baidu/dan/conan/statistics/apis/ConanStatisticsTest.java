@@ -4,13 +4,21 @@ import java.util.Random;
 
 import org.junit.Test;
 
+/**
+ * 
+ * 接口级别的测试
+ * 
+ * @author liaoqiqi
+ * @email liaoqiqi@baidu.com
+ *
+ */
 public class ConanStatisticsTest {
 
 	@Test
 	public final void test() {
 
 		long averageTime = 0;
-		long totalCount = 10000;
+		long totalCount = 1000000;
 
 		for (int i = 0; i < totalCount; ++i) {
 

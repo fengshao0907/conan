@@ -1,5 +1,6 @@
 package com.baidu.dan.conan.server.core.data;
 
+import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,8 +27,8 @@ public abstract class ClientDataInfoBase {
 	 */
 	public ClientDataInfoBase() {
 
-		init(monitorTimeMap, new AtomicLong(0L));
-		init(monitorInfoMap, new AtomicLong(0L));
+		init(monitorTimeMap, new AtomicLong(0L), long.class);
+		init(monitorInfoMap, new AtomicLong(0L), long.class);
 	}
 
 	/**
@@ -40,15 +41,48 @@ public abstract class ClientDataInfoBase {
 	 * @date 2013-3-8
 	 */
 	protected <U extends Number> void init(final ConcurrentMap<String, U> map,
-			U initValue) {
+			U initValue, Class parameter) {
 
 		//
 		// 模块响应请求数
 		//
-		map.put(StatisticsDataConstants.REQUEST_NUMBER_SUCCESS, initValue);
-		map.put(StatisticsDataConstants.REQUEST_NUMBER_FAILED, initValue);
-		map.put(StatisticsDataConstants.REQUEST_NUMBER_TOTAL_SUCCESS, initValue);
-		map.put(StatisticsDataConstants.REQUEST_NUMBER_TOTAL_FAILED, initValue);
+		map.put(StatisticsDataConstants.REQUEST_NUMBER_SUCCESS,
+				getNewInstance(initValue, parameter));
+		map.put(StatisticsDataConstants.REQUEST_NUMBER_FAILED,
+				getNewInstance(initValue, parameter));
+
+		//
+		// api
+		//
+		map.put(StatisticsDataConstants.API_NUMBER,
+				getNewInstance(initValue, parameter));
+	}
+
+	/**
+	 * 
+	 * @Description: 生成一个新实例
+	 * 
+	 * @param <U>
+	 * @param initValue
+	 * @param parameter
+	 * @return
+	 * @return U
+	 * @author liaoqiqi
+	 * @date 2013-3-12
+	 */
+	private <U extends Number> U getNewInstance(U initValue, Class parameter) {
+
+		U newInstance = null;
+		try {
+
+			Constructor con = initValue.getClass().getConstructor(
+					new Class[] { parameter });
+			newInstance = (U) con.newInstance(new Object[] { 0 });
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newInstance;
 	}
 
 	public String getInfo() {
@@ -94,7 +128,9 @@ public abstract class ClientDataInfoBase {
 
 			for (String key : srcMap.keySet()) {
 
-				destMap.put(key, srcMap.get(key));
+				AtomicLong atomicLong = new AtomicLong();
+				atomicLong.set(srcMap.get(key).longValue());
+				destMap.put(key, atomicLong);
 
 				srcMap.get(key).set(0L);
 			}
@@ -113,9 +149,6 @@ public abstract class ClientDataInfoBase {
 	public final void addRequestNumberSuccess(final long consumeTime) {
 
 		addRequestNumberSuccess(StatisticsDataConstants.REQUEST_NUMBER_SUCCESS,
-				consumeTime);
-		addRequestNumberSuccess(
-				StatisticsDataConstants.REQUEST_NUMBER_TOTAL_SUCCESS,
 				consumeTime);
 	}
 

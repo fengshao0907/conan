@@ -1,6 +1,7 @@
 package com.baidu.dan.conan.client.test.benchmark;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import com.baidu.dan.conan.client.ConanClientConnector;
 import com.baidu.dan.conan.common.core.ConanFuncsEnum;
@@ -32,16 +33,28 @@ public final class ClientFastBenchmark {
 		ConanClientConnector billingClientConnector = new ConanClientConnector(
 				curHost, curPort);
 
-		RequestMessage billingData = createNewBillingData();
-
 		long startTime = Calendar.getInstance().getTimeInMillis();
 		int processCounter = 0;
+
 		try {
 
+			long averageTime = 0;
+			long totalCount = 10000;
+
 			for (int i = 0; i < testCaseNum; ++i) {
+
+				Random random = new Random();
+				int sleepTime = random.nextInt(50000);
+				averageTime += sleepTime;
+
+				RequestMessage billingData = createNewBillingData(sleepTime);
 				billingClientConnector.sendCommand(billingData);
 				processCounter++;
 			}
+
+			System.out.println(String.format(
+					"Count: %s, CumulativeTime: %s, AverageTime: %s",
+					totalCount, averageTime, averageTime * 1.0 / totalCount));
 
 		} catch (ConanException e) {
 			e.printStackTrace();
@@ -58,15 +71,16 @@ public final class ClientFastBenchmark {
 
 	}
 
-	private static RequestMessage createNewBillingData() {
+	private static RequestMessage createNewBillingData(final long consumeTime) {
 
 		RequestMessage billingData = new RequestMessage();
 
 		Long timestamp = System.currentTimeMillis();
 		billingData.setKey(timestamp.toString());
+		billingData.setClientId(1L);
 		billingData.setFuncId(ConanFuncsEnum.CONAN_API_CONSUME_TIME);
 		billingData.setTimeString(ConanUtils.getCurTimeStr());
-		billingData.setValue(333);
+		billingData.setValue(consumeTime);
 
 		return billingData;
 	}

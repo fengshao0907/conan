@@ -28,8 +28,6 @@ public class ServerHandler extends SimpleChannelUpstreamHandler {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ServerHandler.class);
 
-	private RequestHandler requestHandler = null;
-
 	/**
 	 * 
 	 * @Description: 抓取未可识别消息的返回
@@ -63,7 +61,7 @@ public class ServerHandler extends SimpleChannelUpstreamHandler {
 
 		} else if ((e.getMessage() instanceof RequestMessage)) {
 			// 请求消息
-			replyMessage = requestHandler.process((RequestMessage) e
+			replyMessage = RequestHandler.process((RequestMessage) e
 					.getMessage());
 
 		} else {

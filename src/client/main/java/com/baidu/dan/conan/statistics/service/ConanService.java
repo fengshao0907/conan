@@ -6,8 +6,8 @@ import com.baidu.dan.conan.common.core.message.RequestMessage;
 public final class ConanService {
 
 	private int port = 8900;
-	//private String host = "127.0.0.1";
-	private String host = "10.40.70.85";
+	private String host = "127.0.0.1";
+	//private String host = "10.40.70.85";
 
 	private ConanClientConnector conanClientConnector = null;
 

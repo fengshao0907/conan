@@ -87,9 +87,7 @@ public class GlobalStatisticsData {
 
 		if (clientDataInfoMap.containsKey(clientId)) {
 
-			clientDataInfoMap.get(clientId)
-					.addRequestNumberSuccess(consumeTime);
+			clientDataInfoMap.get(clientId).addApiNumber(consumeTime);
 		}
 	}
-
 }
