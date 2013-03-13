@@ -39,7 +39,7 @@ public final class RequestHandler {
 		//
 		// 响应成功数
 		//
-		case CONAN_REQUEST_SUCCESS_CONSUME_TIME:
+		case REQUEST_SUCCESS_NUM:
 
 			GlobalStatisticsData.getInstance().addRequestNumberSuccess(
 					requestMessage.getClientId(), requestMessage.getValue());
@@ -48,7 +48,7 @@ public final class RequestHandler {
 		//
 		// API请求数
 		//
-		case CONAN_API_CONSUME_TIME:
+		case API_CONSUME_TIME:
 
 			GlobalStatisticsData.getInstance().addApiNumber(
 					requestMessage.getClientId(), requestMessage.getValue());

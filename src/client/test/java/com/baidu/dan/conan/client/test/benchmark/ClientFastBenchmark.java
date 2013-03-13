@@ -78,7 +78,7 @@ public final class ClientFastBenchmark {
 		Long timestamp = System.currentTimeMillis();
 		billingData.setKey(timestamp.toString());
 		billingData.setClientId(1L);
-		billingData.setFuncId(ConanFuncsEnum.CONAN_API_CONSUME_TIME);
+		billingData.setFuncId(ConanFuncsEnum.API_CONSUME_TIME);
 		billingData.setTimeString(ConanUtils.getCurTimeStr());
 		billingData.setValue(consumeTime);
 

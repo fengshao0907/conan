@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.baidu.dan.conan.server.config.StatisticsDataConstants;
+import com.baidu.dan.conan.common.core.ConanFuncsEnum;
 
 /**
  * 基本量
@@ -46,15 +46,15 @@ public abstract class ClientDataInfoBase {
 		//
 		// 模块响应请求数
 		//
-		map.put(StatisticsDataConstants.REQUEST_NUMBER_SUCCESS,
+		map.put(ConanFuncsEnum.REQUEST_SUCCESS_NUM.toString(),
 				getNewInstance(initValue, parameter));
-		map.put(StatisticsDataConstants.REQUEST_NUMBER_FAILED,
+		map.put(ConanFuncsEnum.REQUEST_FAILD_NUM.toString(),
 				getNewInstance(initValue, parameter));
 
 		//
 		// api
 		//
-		map.put(StatisticsDataConstants.API_NUMBER,
+		map.put(ConanFuncsEnum.API_CONSUME_TIME.toString(),
 				getNewInstance(initValue, parameter));
 	}
 
@@ -148,7 +148,8 @@ public abstract class ClientDataInfoBase {
 	 */
 	public final void addRequestNumberSuccess(final long consumeTime) {
 
-		addRequestNumberSuccess(StatisticsDataConstants.REQUEST_NUMBER_SUCCESS,
+		addRequestNumberSuccess(
+				ConanFuncsEnum.REQUEST_SUCCESS_NUM.toString(),
 				consumeTime);
 	}
 
@@ -163,7 +164,8 @@ public abstract class ClientDataInfoBase {
 	 */
 	public final void addApiNumber(final long consumeTime) {
 
-		addRequestNumberSuccess(StatisticsDataConstants.API_NUMBER, consumeTime);
+		addRequestNumberSuccess(
+				ConanFuncsEnum.API_CONSUME_TIME.toString(), consumeTime);
 	}
 
 	private void addRequestNumberSuccess(final String key,

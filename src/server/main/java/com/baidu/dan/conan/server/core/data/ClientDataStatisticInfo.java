@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.baidu.dan.conan.server.config.StatisticsDataConstants;
+import com.baidu.dan.conan.common.core.ConanFuncsEnum;
 
 /**
  * 实时计算量
@@ -84,9 +84,9 @@ public class ClientDataStatisticInfo extends ClientDataInfoBase {
 					monitorAvgMap.put(key, avg);
 
 					// 功能KEY，请求数，累积时间，平均时间
-					//LOGGER.info(String.format(
-					//		"key: %s, Count: %s, Time:%s ms, Avg:%s", key,
-					//		count, time, avg));
+					// LOGGER.info(String.format(
+					// "key: %s, Count: %s, Time:%s ms, Avg:%s", key,
+					// count, time, avg));
 
 				} else {
 					monitorAvgMap.put(key, 0.0);
@@ -114,7 +114,7 @@ public class ClientDataStatisticInfo extends ClientDataInfoBase {
 
 		double avg = 0.0;
 
-		if (key.equals(StatisticsDataConstants.API_NUMBER)) {
+		if (key.equals(ConanFuncsEnum.API_CONSUME_TIME.toString())) {
 
 			// 每次请求的平均耗时
 			avg = timeConsume / count;

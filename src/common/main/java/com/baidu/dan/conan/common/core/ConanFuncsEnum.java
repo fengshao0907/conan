@@ -10,10 +10,13 @@ package com.baidu.dan.conan.common.core;
 public enum ConanFuncsEnum {
 
 	// 输入类型
-	CONAN_API_CONSUME_TIME(100),
+	API_CONSUME_TIME(100),
 
 	// 输入类型
-	CONAN_REQUEST_SUCCESS_CONSUME_TIME(101);
+	REQUEST_SUCCESS_NUM(101),
+
+	// 输入类型
+	REQUEST_FAILD_NUM(102);
 
 	private int value;
 
